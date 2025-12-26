@@ -1,43 +1,71 @@
-# java_palyground_docker
-Javaを試すためのDocker環境
+# Java Playground with Docker
 
-## Java Playground with Docker
+## 概要
 
-This is a simple playground environment for learning Java using Docker.
+このプロジェクトは、Docker を利用して手軽に Java の学習や開発を試すための環境です。
+ローカルに Java の開発環境を構築する必要がなく、Docker だけで完結します。
 
-### Prerequisites
+## 前提条件
+
+開発を始める前に、以下のソフトウェアがインストールされていることを確認してください。
 
 - Docker
 - Docker Compose
 
-### How to Use
+## 使い方
 
-1.  **Start the container:**
-    ```bash
-    docker-compose up -d
-    ```
+### 1. 環境の起動
 
-2.  **Enter the container:**
-    ```bash
-    docker-compose exec java-playground bash
-    ```
+まず、プロジェクトのルートディレクトリで以下のコマンドを実行し、Docker コンテナを起動します。
 
-3.  **Compile your Java code:**
-    The `src` directory is mounted in the container. You can compile your Java files like this:
-    ```bash
-    javac src/HelloWorld.java
-    ```
+```bash
+docker-compose up -d
+```
 
-4.  **Run your Java program:**
-    After compiling, you can run the program. Make sure to specify the classpath.
-    ```bash
-    java -cp src HelloWorld
-    ```
+### 2. コンテナ内での操作
 
-5.  **Edit your code:**
-    You can edit the `.java` files in the `src` directory on your host machine. The changes will be reflected inside the container immediately. Just re-compile and re-run.
+コンテナが起動したら、以下のコマンドでコンテナの中に入ります。
 
-6.  **Stop the container:**
-    ```bash
-    docker-compose down
-    ```
+```bash
+docker-compose exec java-playground bash
+```
+
+これ以降のコマンドは、コンテナ内で実行します。
+
+### 3. アプリケーションの実行
+
+このプロジェクトは Gradle を使用しています。以下のコマンドでサンプルアプリケーションを実行できます。
+
+```bash
+gradle run
+```
+
+実行すると、コンソールに `Hello, Java World!` と表示されます。
+
+### 4. コードの編集
+
+ホストマシン（あなたのPC）の `src/main/java/` ディレクトリにある `.java` ファイルを直接編集してください。
+変更は即座にコンテナ内に反映されるため、編集後に再度 `gradle run` を実行すれば変更後のプログラムを動かせます。
+
+### 5. コード品質のチェック
+
+プロジェクトには Checkstyle が導入されています。以下のコマンドでコードが規約に準拠しているかを確認できます。
+
+```bash
+gradle check
+```
+
+### 6. その他の Gradle タスク
+
+- **ビルド**: `gradle build`
+  - `build/libs` ディレクトリに実行可能な JAR ファイルが生成されます。
+- **クリーン**: `gradle clean`
+  - `build` ディレクトリを削除します。
+
+## 環境の停止
+
+開発が終わったら、以下のコマンドでコンテナを停止・削除します。
+
+```bash
+docker-compose down
+```
