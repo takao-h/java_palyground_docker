@@ -1,9 +1,10 @@
 services:
   java-playground:
-    build: .
+    image: gradle:8.5.0-jdk21
     container_name: java_playground
     working_dir: /app
     volumes:
-      - ./src:/app/src
+      - ./:/app
     tty: true
     stdin_open: true
+    command: tail -f /dev/null
